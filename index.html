@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Warden</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <div id="app">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <p class="brand">Warden</p>
+            <p class="brand-sub">Local system guard</p>
+          </div>
+        </div>
+        <p id="admin-hint" class="admin-hint"></p>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <h1 class="hero-brand">Warden</h1>
+          <p class="hero-line">Bloom DNS filter. Upstream 1.1.1.1 / 8.8.8.8.</p>
+          <p id="hero-status" class="hero-status">Protection is offline</p>
+          <div class="cta-row">
+            <button id="toggle-protection" type="button" class="btn-primary">
+              Enable protection
+            </button>
+            <button id="refresh-status" type="button" class="btn-ghost">Refresh</button>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="ring ring-a"></div>
+          <div class="ring ring-b"></div>
+          <div class="core" id="status-core"></div>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Engine metrics">
+        <article>
+          <p class="metric-label">Bloom domains</p>
+          <p id="metric-bloom" class="metric-value">—</p>
+        </article>
+        <article>
+          <p class="metric-label">Custom blocks</p>
+          <p id="metric-custom" class="metric-value">—</p>
+        </article>
+        <article>
+          <p class="metric-label">Blocked</p>
+          <p id="metric-blocked" class="metric-value">—</p>
+        </article>
+        <article>
+          <p class="metric-label">Allowed</p>
+          <p id="metric-allowed" class="metric-value">—</p>
+        </article>
+      </section>
+
+      <section class="panels">
+        <section class="panel" aria-labelledby="custom-title">
+          <div class="panel-head">
+            <div>
+              <h2 id="custom-title">Custom blacklist</h2>
+              <p>Saved locally in SQLite. Checked before the Bloom filter.</p>
+            </div>
+          </div>
+
+          <form id="add-domain-form" class="add-form">
+            <input
+              id="domain-input"
+              type="text"
+              placeholder="example.com or 1.2.3.4"
+              autocomplete="off"
+              spellcheck="false"
+              required
+            />
+            <button type="submit" class="btn-primary">Add domain</button>
+          </form>
+          <p id="form-message" class="form-message" role="status"></p>
+          <div id="custom-list" class="domain-list"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="tools-title">
+          <div class="panel-head">
+            <div>
+              <h2 id="tools-title">Lookup &amp; activity</h2>
+              <p>O(1) dual lookup against custom SQLite + baked Bloom filter.</p>
+            </div>
+          </div>
+
+          <form id="check-form" class="add-form">
+            <input
+              id="check-input"
+              type="text"
+              placeholder="Check a domain…"
+              autocomplete="off"
+              spellcheck="false"
+              required
+            />
+            <button type="submit" class="btn-ghost">Check</button>
+          </form>
+          <p id="check-result" class="form-message" role="status"></p>
+
+          <div class="engine-flags">
+            <span id="flag-wfp" class="flag">WFP idle</span>
+            <span id="flag-dns" class="flag">DNS proxy idle</span>
+          </div>
+
+          <h3 class="recent-title">Recent blocks</h3>
+          <div id="recent-list" class="recent-list"></div>
+        </section>
+      </section>
+    </div>
+  </body>
+</html>
